@@ -28,3 +28,35 @@ python polypred.py --combine-betas --betas Bolt_HDL_sumstat_250k,polyfun_HDL_250
 ```
 python PRScsx.py --ref_dir=/data/alh-admmdm/softwares/PRScsx/reference_prscsx --bim_prefix=ethnicity4p --sst_file=cholesterol_ukbb_reference.assoc.Prscsx.txt --n_gwas=200000 --pop=EUR --phi=1e-2 --out_dir=PRScsx_test --out_name=choles_afr
 ```
+
+
+#### Example codes to run XPASS
+  
+```
+library(devtools)
+library(XPASS)
+library(data.table)
+# Reference genotypes for ancestry1 (prefix of plink file bim/bed/fam)
+ref_1 <- "ethnicity2"
+# Reference genotypes for ancestry2 (prefix of plink file bim/bed/fam)
+ref_2 <- "british_50k"
+# sumstats of height
+summary1 <- "BMI_ethnicity2_summary_XPASS" # target
+summary2 <- "BMI_british_summary_XPASS" # auxiliary
+# Covariates
+cov_1="ethnicity2_pc"
+cov_2="british_50k_pc"
+pred="ethnicity2"
+
+correl_out <-XPASS(file_z1 = summary1,
+                   file_z2 = summary2,
+                   file_ref1 = ref_1,
+                   file_ref2 = ref_2,
+                   file_cov1 = cov_1,
+                   file_cov2 = cov_2,
+                   file_predGeno = pred,
+                   compPRS=T,
+                   pop = "EUR", sd_method="LD_block",compPosMean = T,
+                   file_out = "BMI_ethnicity2_xpass")
+```
+
